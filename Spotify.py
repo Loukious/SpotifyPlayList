@@ -10,15 +10,21 @@ load_dotenv()
 SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 SPOTIPY_REDIRECT_URI = os.getenv('SPOTIPY_REDIRECT_URI')
+SPOTIPY_REFRESH_TOKEN = os.getenv('SPOTIPY_REFRESH_TOKEN')
 PLAYLIST_ID = os.getenv('PLAYLIST_ID')
 
 scope = "playlist-modify-public"
 
-# Initialize Spotify client
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                                               client_secret=SPOTIPY_CLIENT_SECRET,
-                                               redirect_uri=SPOTIPY_REDIRECT_URI,
-                                               scope=scope))
+# Initialize Spotify client with refresh token
+sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
+                        client_secret=SPOTIPY_CLIENT_SECRET,
+                        redirect_uri=SPOTIPY_REDIRECT_URI,
+                        scope=scope)
+
+sp_oauth.refresh_access_token(SPOTIPY_REFRESH_TOKEN)
+access_token = sp_oauth.get_cached_token()['access_token']
+
+sp = spotipy.Spotify(auth=access_token)
 
 def get_jams_from_item_shop():
     url = "https://fortnite-api.com/v2/shop"
