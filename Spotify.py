@@ -54,7 +54,7 @@ def get_jams_from_item_shop():
 def search_and_replace_tracks_in_playlist(playlist_id, tracks):
     track_ids = []
     for track in tracks:
-        query = f"{track['artist']} {track['title']} {track.get('album') or ''} {track.get('releaseYear') or ''}"
+        query = f"{track['title']}"
         search_results = sp.search(q=query, type='track', limit=1)
         if search_results['tracks']['items']:
             track_id = search_results['tracks']['items'][0]['id']
