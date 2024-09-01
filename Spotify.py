@@ -39,13 +39,13 @@ def get_jams_from_item_shop():
         result["hash"] = data["data"]["hash"]
         seen_titles = set()
         for item in data["data"]["entries"]:
-            if item["tracks"]:
+            if "tracks" in item:
                 for track in item["tracks"]:
                     if track["title"] not in seen_titles:
                         result["tracks"].append({
                             "title": track["title"],
                             "artist": track["artist"],
-                            "album": track["album"],
+                            "album": track.get("album", ""),
                             "releaseYear": track["releaseYear"]
                         })
                         seen_titles.add(track["title"])
