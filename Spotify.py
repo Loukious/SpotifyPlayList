@@ -24,7 +24,7 @@ sp_oauth = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
 sp_oauth.refresh_access_token(SPOTIPY_REFRESH_TOKEN)
 access_token = sp_oauth.get_cached_token()['access_token']
 
-sp = spotipy.Spotify(auth=access_token)
+sp = spotipy.Spotify(auth=access_token, requests_timeout=30)
 
 def get_jams_from_item_shop():
     url = "https://fortnite-api.com/v2/shop"
